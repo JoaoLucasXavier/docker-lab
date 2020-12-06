@@ -1,0 +1,17 @@
+:'
+
+
+- CLOUD 9 -
+-> Imagem que provê uma imagem AWS
+-> https://github.com/c9/core
+-> https://hub.docker.com/r/sapk/cloud9
+
+
+- STEPS -
+-> CLI: docker pull sapk/cloud9
+-> CLI: docker run -p 8181:8181 sapk/cloud9 --auth username:password
+-> BROWSER: localhost:8181
+    - Insert username/password
+
+
+'
