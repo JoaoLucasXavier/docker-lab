@@ -1,0 +1,8 @@
+:'
+
+
+- MOSTRA ESTATÍSTICA DE PERFORMANCE DE TODOS OS CONTAINER QUE ESTÃO RODANDO -
+-> CLI: docker container stats
+
+
+'
