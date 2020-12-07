@@ -3,4 +3,7 @@
 
 2)Create new use and new database in mongodb:
     -> docker exec -it mongodb mongo --host localhost -u admin -p password --authenticationDatabase admin --eval "db.getSiblingDB('herois').createUser({user: 'lucasxavier', pwd: 'password', roles: [{role: 'readWrite', db: 'herois'}]})"
+
+3) Mongodb client
+    -> docker run --name mongoclient -p 3000:3000 --link mongodb:mongodb -d mongoclient/mongoclient
 '
