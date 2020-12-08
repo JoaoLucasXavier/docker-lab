@@ -7,26 +7,43 @@
 -> https://www.youtube.com/watch?v=lKhlG4xHKGM
 
 
-- STEPS PHP ENVIRONMENT (PHP, APACHE, MYSQL, PHPMYADMIN)-
+- STEP: PHP ENVIRONMENT (PHP, NGINX, MYSQL, PHPMYADMIN) -
 -> CLI: git clone git@github.com:laradock/laradock.git | Path: /home/lucasxavier/workspace/
 -> CLI: cd laradock
--> CLI: cp env-example .env | Arquivo que possui configurações senssíveis (nginx, apache, portas, user/pass mysql, etc)
--> FILE: docker-compose.yml | Arquivo faz uso das configuracoes ".env", através das variáveis globais.
--> CLI UP CONTAINER: docker-compose up -d apache2 mysql phpmyadmin
+-> CLI: cp env-example .env
+-> CLI: docker-compose up -d nginx mysql phpmyadmin
 -> CLI: docker container ls
--> CONFIG PATH APACHE2: apache2/sites/default.apache.conf | Onde configuramos o DocumentRoot, VirtualHosts etc
+
+
+- DOCKER COMPOSER COMMANDS -
+-> CLI: docker-compose build nginx | Reconstrua o contêiner ao modificar conf do nginx
+-> CLI: docker-compose up -d nginx mysql phpmyadmin | Sobe os containers | Devemos informar as imagens para não executar todas do laradock
+-> CLI: docker-compose restart | Para os containers que estão rodando e sobe novamente
+
+
+- CRIANDO MULTIPLOS PROJETOS -
+-> CREATE FOLDER: /var/www/NEWPROJECT/PUBLIC
+-> CREATE FILE: nginx/sites/NEWPROJECT.conf | Adicionar documentRoot e domain
+-> EDIT FILE: /etc/hosts | 127.0.0.1 NEWPROJECT.test
+-> docker-compose restart
+
+
+- PhpMyAdmin -
+    - PhpMyAdmin: http://localhost:8081/ (server: mysql, name, password)
+
+
+- ABOUT -
+-> FILE: .env | Arquivo que possui configurações senssíveis (nginx, apache, portas, user/pass mysql, etc)
+-> FILE: docker-compose.yml | Arquivo faz uso das configuracoes ".env", através das variáveis globais.
+-> CONFIG PATH NGINX: nginx/sites/default.conf | Onde configuramos o DocumentRoot, VirtualHosts etc
     - O path DocumentRoot /var/www/ mostrada nas configurações está sincronizada com o path /home/lucasxavier/workspace
-    - Logo o path do projeto será: /home/lucasxavier/workspace/index.php
--> ACESSOS:
-    - PhpMyAdmin: http://localhost:8081/
-
-
-- O QUE FAZER AO EFETUAR MUDANÇAS NO LARADOCK -
--> CLI: docker-compose build apache2 | Reconstrua o contêiner ao modificar conf do apache2
--> CLI: docker-compose up | Reinicie os contêineres
+    - Logo o path do projeto será: /home/lucasxavier/workspace/public/index.php
 
 
 - OBS -
 -> o Diretório raiz dos projetos PHP pode ser configurado na variável de ambiente APP_CODE_PATH_HOST (arquivo .env).
+-> Habilitar/desabilitar certificado SSL chrome: chrome://flags/#allow-insecure-localhost
+
+
 
 '
