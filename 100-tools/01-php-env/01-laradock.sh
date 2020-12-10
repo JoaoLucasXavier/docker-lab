@@ -28,8 +28,16 @@
 -> docker-compose restart
 
 
-- PhpMyAdmin -
+- AUTÊNTICAÇÃO -
+-> PhpMyAdmin -
     - PhpMyAdmin: http://localhost:8081/ (server: mysql, name, password)
+-> PDO/mysqli:
+    MYSQL_VERSION=mysql | OBS: Não é localhost, sim mysql
+    MYSQL_DATABASE=default
+    MYSQL_USER=default
+    MYSQL_PASSWORD=secret
+    MYSQL_PORT=3306
+    MYSQL_ROOT_PASSWORD=root
 
 
 - ABOUT -
