@@ -7,6 +7,8 @@ services:
     depends_on:
       - productapp-mysql
       - productapp-redis
+    networks:
+      - productapp_networks
 
   productapp-mysql:
     image: mysql:8.0.23
@@ -19,6 +21,8 @@ services:
     environment:
       MYSQL_DATABASE: productapp
       MYSQL_ROOT_PASSWORD: root
+    networks:
+      - productapp_networks
 
   productapp-nginx:
       build: ./.docker/nginx
@@ -29,8 +33,18 @@ services:
         - ./:/var/www
       depends_on:
         - productapp
+      networks:
+        - productapp_networks
 
   productapp-redis:
     image: redis:alpine
     expose:
       - 6379
+    networks:
+      - productapp_networks
+
+networks:
+  productapp_networks:
+    driver: bridge
+
+
