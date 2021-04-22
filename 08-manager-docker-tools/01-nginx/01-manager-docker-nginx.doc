@@ -1,0 +1,39 @@
+----------------
+-- FULL CYCLE --
+----------------
+
+-> BASIC COMMANDS CONTAINER
+- docker container run -d -p 8080:80 --name nginx nginx
+- docker container stop nginx
+- docker container start nginx
+- docker container rm nginx | docker container rm nginx -f
+
+-> ACCESS CONTAINER - CLI
+- docker exec nginx ls
+- docker exec -it nginx bash
+
+-> WWWROOT PATH NGINX CONTAINER
+- Path: /usr/share/nginx/html/
+
+-> BIND MOUNTS
+- 1 forma (Absoleto)
+  > docker container run -d -p 8080:80 --name nginx -v ~/labs/docker-lab/08-manager-docker-tools/01-nginx/.docker/nginx/html/:/usr/share/nginx/html/ nginx
+- 2 forma:
+  > cd /home/lucasxavier/labs/docker-lab/08-manager-docker-tools/01-nginx/.docker/nginx/html
+  > docker container run -d -p 8080:80 --name nginx --mount type=bind,source="$(pwd)"/,target=/usr/share/nginx/html/ nginx
+- Executar container com volumes (-v vs --mount)
+  > cd /home/lucasxavier/labs/docker-lab/08-manager-docker-tools/01-nginx/.docker/nginx/html
+  > docker container run -d -p 8080:80 --name nginx -v "$(pwd)"/yyy:/usr/share/nginx/html/ nginx | Será criado o diretório 'yyy'
+  > docker container run -d -p 8080:80 --name nginx --mount type=bind,source="$(pwd)"/yyy,target=/usr/share/nginx/html/ nginx | Erro: --mount não cria diretório 'yyy'
+
+-> WORKING WITH VOLUMES
+- docker volume create meuvolume
+- docker volume inspect meuvolume
+  > "Mountpoint": "/var/lib/docker/volumes/meuvolume/_data", | Local onde fica gravado os arquivos no computador
+- docker run -d -p 8080:80 --name nginx --mount type=volume,source=meuvolume,target=/app nginx
+- docker exec -it nginx bash | cd app | touch oi
+- -v vs --mount
+  > docker run -d -p 8081:80 --name nginx_other -v meuvolume:/app nginx
+  > docker exec -it nginx_other bash | cd app | touch oi_2
+- docker exec -it nginx bash | cd app | ls
+- docker volume prune
