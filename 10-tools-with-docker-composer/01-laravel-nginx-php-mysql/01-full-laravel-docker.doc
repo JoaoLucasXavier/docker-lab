@@ -1,4 +1,3 @@
-:'
 DEV ENVINRONMENT LARAVEL, MYSQL
 -------------------------------
 
@@ -75,7 +74,3 @@ services:
 networks:
   network_movies_rating:
     driver: bridge
-
-
-
-'

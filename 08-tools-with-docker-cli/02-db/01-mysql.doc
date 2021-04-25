@@ -1,4 +1,3 @@
-:'
                             CIANDO IMAGENS USANDO DOCKER FILE
                             ---------------------------------
 
@@ -56,7 +55,3 @@ sudo docker exec -it mysql-container mysql -uroot -p
 CONTINUE
 
 https://www.youtube.com/playlist?list=PLbA-jMwv0cuVRs8qkXKkeOuL80bdiQ96D
-
-'
-
-
