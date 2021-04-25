@@ -1,0 +1,18 @@
+-> GERAR IMAGEM BASEADO NO DOCKERFILE
+- docker build -t lucasxavier000/pfa-node .
+  > Flag -t: Define a tag da imagem no dockerhub (nome usuário no dockerhub)
+  > Flag .: Diretório que está meu Dockerfile
+
+
+-> EXECUTAR CONTAINER A PARTIR DA IMAGEM
+- docker container run -d --name node -p 3000:3000 -v $(pwd)/:/usr/app/src/ lucasxavier000/pfa-node
+- docker container run -d --name node -p 3000:3000 --mount type=bind,source="$(pwd)"/,target=/usr/app/src/ lucasxavier000/pfa-node
+
+
+-> EXECUTANDO COMANDOS NO CONTAINER
+- docker container exec -it node apk add bash
+- docker container exec -it node bash
+
+
+-> OBS:
+  - Os comandos acima devem ser rodados no path desse mesmo arquivo

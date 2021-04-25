@@ -1,0 +1,35 @@
+-> OBJETIVO
+- Rodar um container um server Nodejs no Nginx
+- O nginx é um servidor de proxy reverso, isso significa que o nginx pode redicionar a requisição para onde quisermos
+- Steps: Teremos um container rodando node -> Container rodando nginx -> Quando acessarmos o nginx -> O nginx retorna o resultado do que está rodando no node.
+
+-> STEPS NGINX
+- Criar arquivo de configuração para o nginx chamar o container do Nodejs: 09-tools-with-dockerfile/02-rodando-imagem-node-no-nginx/nginx/default.conf
+
+
+-> GERAR IMAGEM BASEADO NO DOCKERFILE DO NODE E NGINX
+- docker build -t lucasxavier000/pfa-node .
+- docker build -t lucasxavier000/pfa-nginx .
+  - CLI PATH: /nginx
+
+
+-> CRIAR NETWORK PARA OS CONTAINERS NGINX E NODE POSSA SE ENXERGAR
+- docker network create pfa
+
+
+-> EXECUTAR CONTAINER NODE E NGINX A PARTIR DA IMAGEM
+- docker container run -d --rm --name nodecontainer --network=pfa --mount type=bind,source="$(pwd)"/,target=/usr/app/src/ lucasxavier000/pfa-node node index.js
+  - CLI Path: Dockerfile node
+  - Executa o container e roda o servidor node, arquivo index.js
+- docker container run --name nginxcontainer -p 8888:80 --network=pfa lucasxavier000/pfa-nginx
+  - CLI Path: Dockerfile nginx
+
+
+-> ACESSAR NO BROWSER: http://localhost:8888/
+
+
+
+
+
+
+

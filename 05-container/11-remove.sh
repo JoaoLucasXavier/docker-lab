@@ -7,3 +7,4 @@
 
 -> REMOVER CONTAINER DE FORMA AUTONATIZADA
 - CLI: docker container rm $(docker container ls -aq) -f
+- CLI: docker run --rm image_name | Apaga o container assim que sairmos do mesmo
