@@ -1,0 +1,33 @@
+CRIAÇÃO, PUBLICAÇÃO IMAGEM - DOCKERFILE - ENTRYPOINT - CMD
+----------------------------------------------------------
+
+-> CRIANDO PRIMEIRA IMAGEM DOCKERFILE
+- Criar arquivo DOCKERFILE
+- CLI: docker build -t lucasxavier000/nginx-com-vim:latest .
+  - Flag -t: Tag da imagem
+  - Flag .: Diretório do Dockerfile
+- docker run --rm -it lucasxavier000/nginx-com-vim bash
+- docker run --rm -d -p 8080:80 lucasxavier000/nginx-com-vim
+  - Executa o nginx e mantem o processo para acesso ao browser
+  - Caso executemos o bash, o mesmo substitui o comando que mantem o comand CMD que mamtém o servidor de pé
+
+
+-> CMD e ENTRYPOINT
+- CMD ['']: comando fixo, ENTRYPOINT['']: Comando variável
+- Comando fixo sempre será executado no container
+  - Será executado exatamente o que foi definido dentro do ENTRYPOINT['']
+- Comando variável poderá ser substituido por outro comando e não ser executado
+  > Caso tenhamos um ENTRYPOINT antes do CMD, tudo que estiver dentro do CMD [''] será inserido como parâmetro do ENTRYPOINT['']
+  > ENTRYPOINT['echo', 'hello'], CMD['world']
+    - docker run -it lucasxavier000/nginx-com-vim:latest
+    - Saída será "hello world"
+
+
+-> PUBLICANDO IMAGEM PARA O DOCKERHUB
+- docker build -t lucasxavier000/nginx-com-vim:latest .
+- docker run --rm -d -p 8080:80 lucasxavier000/nginx-com-vim
+- Acessar: localhost:8080
+- docker login
+- docker push lucasxavier000/nginx-com-vim
+
+
