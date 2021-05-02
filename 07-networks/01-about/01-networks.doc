@@ -1,0 +1,6 @@
+-> TIPOS DE REDES DOCKER
+- Bridge: Utilzamos normalmente para um container se comunicar com outro
+- Host: Mescla a rede do docker com a rede do host do docker (Onde o docker está hospedado). Útil para compartilhar porta do container e da maquina, para um container consiga acessar a porta do mysql da minha máquina por exemplo·
+- Overlay: Cria uma rede única para diversos container, sobrepondo as networks internas desses containers.
+- Maclan: Torna possível configurar um MAC ADDRESS para o container.
+- None: Significa nenhuma rede para o container, o mesmo vai rodar de forma isolada.

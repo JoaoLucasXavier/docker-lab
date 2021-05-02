@@ -1,0 +1,36 @@
+-> Trabalhando com redes
+- docker network ls
+- docker run -itd --name ubuntu1
+- docker run -itd --name ubuntu2
+- docker network inspect network_name | Visualiza detalhes de uma network
+- Ips containers ubuntu1/ubuntu2 172.17.0.2/172.17.0.3
+- docker attack ubuntu1
+  - ip addr show
+  - ping 72.17.0.3 | IP ubuntu2
+- docker attack ubuntu2
+  - ip addr show
+  - ping 72.17.0.2 | IP ubuntu1
+- docker container rm $(docker container ls -aq) -f
+
+
+
+-> Criando redes
+- docker network create --driver bridge minha_rede
+- docker network ls | Será listado a rede criada 'minha_rede'
+- docker network inspect minha_rede
+- docker run -dit --name ubuntu1 --network minha_rede bash
+- docker run -dit --name ubuntu2 --network minha_rede bash
+- docker network inspect minha_rede
+- docker exec -it ubuntu1 bash
+- Ips containers ubuntu1/ubuntu2 172.18.0.2/172.18.0.3
+- docker exec -it ubuntu2 bash
+  - ip addr show
+  - ping 72.18.0.3 | IP ubuntu2
+- docker exec -it ubuntu2 bash
+  - ip addr show
+  - ping 72.18.0.2 | IP ubuntu1
+
+
+
+-> Conectar um container numa network
+- docker container connect minha_rede ubuntu3 | Conecta o container ubuntu3 a rede chamada 'minha_rede'

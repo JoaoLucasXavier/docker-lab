@@ -1,0 +1,22 @@
+-> TESTE SIMPLES HOST NETWORK
+- docker run --rm  -d --name nginx --netowk host nginx | O nginx vai funcionar na porta 80 (pois a rede do container é a mesma do host)
+- curl http://localhost | É para pegar a página do nginx que está no container
+
+
+-> ACESSANDO RECURSOS DO DOCKER HOST NO CONTAINER DOCKER
+- STEPS::
+- php -S 0.0.0.0:8000 | Subir um servidor PHP na porta 8000 no host(minha máquina)
+- Nosso objetivo é fazer o container docker acessar 8000 do host e pegar o arquivo index.html wwroot
+- docker run --rm -it --name ubuntu ubuntu bash
+  - apt-get update
+  - apt get install curl -y
+  - curl http://host.docker.internal:8000 | Dessa forma conseguimos acessar o servidor php do host dentro do container | 8000 é a porta do server php no host
+
+
+
+-> OBS
+-> No Mac o host do docker é uma máquina virtual, por isso não funciona.
+-> No Window, o host do docker é o WSL, logo o host é um linux. Funciona!
+-> No Linux, É SHOW!
+
+
