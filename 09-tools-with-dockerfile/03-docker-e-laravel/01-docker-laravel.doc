@@ -1,0 +1,13 @@
+- CRIAR IMAGE A PARTIR DOCKERFILE
+-> docker login
+-> docker build -t lucasxavier000/laravel:latest .
+  > Path Dockerfile laravel
+-> docker run --rm -d --name laravel -p 8000:8000 lucasxavier000/laravel
+-> docker logs laravel
+  > Ver os logs, o que está acontecendo no container laravel
+-> http://127.0.0.1:8000/
+
+
+-> EXECUTAR O CONTAINER SUBSTITUINDO O COMAND(CMD) DO DOCKER FILE
+- docker run --rm -d --name laravel2 -p 8001:8001 lucasxavier000/laravel --host=0.0.0.0 --port=8001
+  > OBS: --name laravel2 | Nome diferente para o contaner . . .
