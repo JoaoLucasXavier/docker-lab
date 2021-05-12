@@ -1,0 +1,25 @@
+-- GERANDO AMBIENTE NODE
+-> docker run --rm -it -v $(pwd)/:/usr/src/app -p 3000:3000 node:15 bash
+  - Path: /home/lucasxavier/labs/docker-lab/09-tools-with-dockerfile/03-docker-e-node
+-> cd /usr/src/app
+-> touch index.js
+-> npm init
+-> npm install express --save
+->  node index.js
+-> localhost:3000
+
+
+-- GERANDO A IMAGEM DA APLICAÇÃO NODE
+-> Create: Dockerfile
+-> docker build -t lucasxavier000/hello-express .
+  - Dockerfile desenvolvimento
+-> docker build -t lucasxavier000/hello-express . -f Dockerfile.prod
+  - Dockerfile producao
+-> docker run -p 3000:3000 lucasxavier000/hello-express:latest
+-> docker login
+-> docker push lucasxavier000/hello-express
+
+-- OBS
+-> Diferenca dockerfile e dockerfile.prod
+  - No dockerfile não copiamos os arquivos/scripts locais para dentro da imagem
+  - NO Dockerfile.prod copiamos os scripts para que possar subir na imagem para o dockerhub
