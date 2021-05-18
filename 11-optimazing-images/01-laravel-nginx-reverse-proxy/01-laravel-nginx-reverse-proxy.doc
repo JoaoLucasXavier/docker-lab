@@ -1,0 +1,35 @@
+-- OPTIMIZING
+-> Dockerfile.prod | Vamos otimizar a imagem de produção
+-> php:8.0-fpm-alpine | Imagem mínima baseada no Debian Linux
+-> No Dockerfile, vamos copiar o laravel do builder "FROM php:8.0-cli" para o builder "FROM php:8.0-fpm-alpine"
+
+
+-- GENERATE LARAVEL OPTIMIZING IMAGE
+-> docker build -t lucasxavier000/laravel:prod . -f Dockerfile.prod
+-> docker image ls | grep laravel
+-> OBS: Comandos acima dentro da pasta /laravel
+
+
+-- GENERATE NGINX IMAGE
+-> CREATE FILE: /nginx/nginx.conf
+-> CREATE FILE: /nginx/Dockerfile
+-> docker build -t lucasxavier000/nginx:prod . -f Dockerfile.prod
+-> OBS: Comandos acima dentro da pasta /nginx
+
+
+
+-- CREATE NETWORK
+-> docker network create laragix
+
+
+-- RUNNING LARAVEL AND NGINX
+-> CLI: docker run -d --network laragix --name laravel lucasxavier000/laravel:prod
+-> CLI: docker run -d --network laragix --name nginx -p 8080:80 lucasxavier000/nginx:prod
+-> CLI: docker log nginx
+-> BROWSER: http://localhost:8080/
+
+
+-- OBS
+-> O nginx também faza a exposição de arquivos estáticos (css, imagens, assets etc)
+-> Caso eu deseje exibir as imagens/css/etc que estão no container laravel, será necessário copiar esses assets para dentro do nginx. Porque o PHP FPM não serve as imagens, serve apenas arquivos PHP.
+
