@@ -1,0 +1,5 @@
+-- STEP
+-> docker build -t lucasxavier000/laravel . | Path /docker/laravel
+-> docker build -t lucasxavier000/nginx . | Path /docker/nginx
+-> docker-compose up -d --build | Path docker-file.yml
+-> docker-compose ps
