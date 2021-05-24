@@ -1,4 +1,4 @@
-FROM php:8.0.6-cli
+FROM php:8.0.6-cli AS builder
 
 WORKDIR /var/www
 
@@ -10,9 +10,13 @@ RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" &&
   php composer-setup.php && \
   php -r "unlink('composer-setup.php');"
 
-RUN ./composer.phar create-project laravel/laravel laravel
+RUN ./composer.phar create-project --prefer-dist laravel/laravel laravel
 
-ENTRYPOINT [ "php", "laravel/artisan", "serve" ]
-
-CMD [ "--host=0.0.0.0" ]
-
+FROM php:8.0.6-fpm-alpine
+WORKDIR /var/www
+RUN rm -rf /var/www/html
+COPY --from=builder /var/www/laravel .
+RUN ln -s public html
+RUN chown -R www-data:www-data /var/www
+EXPOSE 9000
+CMD [ "php-fpm" ]
