@@ -1,6 +1,8 @@
-FROM php:8.0.6-cli AS builder
+FROM php:8.0.6-fpm
 
 WORKDIR /var/www
+
+RUN rm -rf /var/www/html
 
 RUN apt-get update && \
   apt-get install libzip-dev -y && \
@@ -9,14 +11,12 @@ RUN apt-get update && \
 RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" && \
   php composer-setup.php && \
   php -r "unlink('composer-setup.php');"
-
 RUN ./composer.phar create-project --prefer-dist laravel/laravel laravel
 
-FROM php:8.0.6-fpm-alpine
-WORKDIR /var/www
-RUN rm -rf /var/www/html
-COPY --from=builder /var/www/laravel .
-RUN ln -s public html
+RUN ln -s /var/www/laravel/public/ /var/www/html
+
 RUN chown -R www-data:www-data /var/www
+
 EXPOSE 9000
+
 CMD [ "php-fpm" ]
