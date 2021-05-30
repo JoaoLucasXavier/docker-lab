@@ -1,9 +1,45 @@
 -- STEP
 -> docker-compose up -d --build | Path docker-file.yml
--> docker exec -it node bash
 -> docker-compose ps
 -> docker logs db
+
+
+-- EXECUTAR O SERVIDOR NODE
+-> docker exec -it node bash
+-> node index.js
+
+
+-- CREATE DATABASE
+-> docker-compose up -d --build --force-recreate db
+-> docker exec -it mysql bash
+-> mysql -u root -it
+-> OPEN FILE: src/script.sql | Executar scripts para criar o banco de dados
+
+
+-- CONFIG MYSQL
+  {
+    host: 'db',
+    user: 'root',
+    password: 'root',
+    database: 'appdb',
+  };
+
 
 -- MYSQL_USER IMPORTANT
 -> Nas novas versões da imagem do MySQL 5.7, a variável MYSQL_USER=root não é aceita, porque o usuário root do banco já é criado por padrão, então lançará um erro dizendo que está se tentando criar um usuário que já existe.
 -> De qualquer forma, mesmo na versões antigas, se quisermos trabalhar com usuário root do banco, esta variável não precisa ser passada. Remova esta variável do seu docker-compose.yaml.
+
+
+-- ERROS
+-> NÃO CONSIGO CONECTAR NO MYSQL (1) [mysql -u root -p]
+  -> Resolução 1: Remover a pasta /mysql/data | Obs: Fazer backup antes
+  -> Resolução 2: | Dessa maneira não é necessário apagar a pasta /mysql/data
+    - docker-compose up -d --build --force-recreate YOUR_SERVICE_NAME | YOUR_SERVICE_NAME = db
+    - docker exec -it YOUR_SERVICE_NAME bash
+  -> https://stackoverflow.com/questions/59838692/mysql-root-password-is-set-but-getting-access-denied-for-user-rootlocalhost
+-> NÃO CONSIGO CONECTAR NO MYSQL (2) [mysql -u root -p]
+    - Depois de insistir bastante entre [mysql -u root -p] e [mysql -u root -p "root"] acabou entrando no mysql
+-> ERRO AO EXECUTAR O index.js NO MYSQL 8 VERSION
+  - Revolvi mudar a versão do mysql pra o 5.7
+  - Problema provavel de incompatibilidade do driver do node sql com o sql 8.
+  - https://stackoverflow.com/questions/50093144/mysql-8-0-client-does-not-support-authentication-protocol-requested-by-server

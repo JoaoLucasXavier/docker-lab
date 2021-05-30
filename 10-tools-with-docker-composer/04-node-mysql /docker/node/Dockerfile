@@ -4,4 +4,8 @@ WORKDIR /usr/src/app
 
 EXPOSE 3000
 
-CMD ["node", "index.js"]
+# ENTRYPOINT [ "tail", "-f", "/dev/null"]
+
+# CMD ["node", "index.js"]
+
+

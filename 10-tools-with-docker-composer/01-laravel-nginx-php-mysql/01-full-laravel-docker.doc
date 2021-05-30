@@ -74,3 +74,15 @@ services:
 networks:
   network_movies_rating:
     driver: bridge
+
+
+-- ERROS
+-> NÃO CONSIGO CONECTAR NO MYSQL (1) [mysql -u root -p]
+  -> Resolução 1: Remover a pasta /mysql/data | Obs: Fazer backup antes
+  -> Resolução 2: | Dessa maneira não é necessário apagar a pasta /mysql/data
+    - docker-compose up -d --build --force-recreate YOUR_SERVICE_NAME | YOUR_SERVICE_NAME = db
+    - docker exec -it YOUR_SERVICE_NAME bash
+  -> https://stackoverflow.com/questions/59838692/mysql-root-password-is-set-but-getting-access-denied-for-user-rootlocalhost
+-> NÃO CONSIGO CONECTAR NO MYSQL (2) [mysql -u root -p]
+    - Depois de insistir bastante entre [mysql -u root -p] e [mysql -u root -p "root"] acabou entrando no mysql
+
