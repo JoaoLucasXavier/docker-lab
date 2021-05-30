@@ -2,25 +2,18 @@ version: '3'
 
 services:
 
-  laravel:
+  node:
     build:
-      context: ./docker/laravel
+      context: ./docker/node
       dockerfile: Dockerfile
-    image: lucasxavier000/laravel
-    container_name: laravel
-    networks:
-      - laranet
-
-  nginx:
-    build:
-      context: ./docker/nginx
-      dockerfile: Dockerfile
-    image: lucasxavier000/nginx
-    container_name: nginx
-    networks:
-      - laranet
+    container_name: node
     ports:
-      - "8080:80"
+      - "3000:3000"
+    networks:
+      - nodenet
+    volumes:
+      - ./src:/usr/src/app
+    tty: true
 
   db:
     image: mysql:8.0.25
@@ -34,8 +27,8 @@ services:
       - MYSQL_DATABASE=mydb
       - MYSQL_ROOT_PASSWORD= root
     networks:
-      - laranet
+      - nodenet
 
 networks:
-  laranet:
+  nodenet:
     driver: bridge
