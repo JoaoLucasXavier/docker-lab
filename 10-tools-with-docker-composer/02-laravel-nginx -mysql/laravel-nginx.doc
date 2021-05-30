@@ -1,0 +1,10 @@
+-- STEP
+-> docker build -t lucasxavier000/laravel . | Path /docker/laravel
+-> docker build -t lucasxavier000/nginx . | Path /docker/nginx
+-> docker-compose up -d --build | Path docker-file.yml
+-> docker-compose ps
+-> docker logs db
+
+-- MYSQL_USER IMPORTANT
+-> Nas novas versões da imagem do MySQL 5.7, a variável MYSQL_USER=root não é aceita, porque o usuário root do banco já é criado por padrão, então lançará um erro dizendo que está se tentando criar um usuário que já existe.
+-> De qualquer forma, mesmo na versões antigas, se quisermos trabalhar com usuário root do banco, esta variável não precisa ser passada. Remova esta variável do seu docker-compose.yaml.
