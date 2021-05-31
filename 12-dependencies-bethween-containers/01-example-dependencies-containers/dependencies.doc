@@ -1,0 +1,55 @@
+-- DEPENDENCIES BETWEEN CONTAINERS
+-> Nem tudo com docker são flores, muitas vezes temos dependẽncias entre containers, e por default os mesmos sobem juntos.
+-> Exemplo: Muitas vezes, devemos subir o container node, somente quando o container mysql estiver em execução.
+-> Como fazer para que o container tenha uma dependência clarra um ao outro? Um esperar o outro ficar pronto?
+-> depends_on | Adicionamos ao service no docker-compose.yml
+  - O comando [depends_on] diz ao docker composer que deve subir um container pra somente depois subir o outro container
+  - Infelizmente não resolve o problema, pois um serviço como o mysql pode não está pronto após os containers estarem prontos.
+
+-- DOCKERIZE
+-> https://github.com/jwilder/dockerize
+-> Permite adicionarmos o tempo que um container dependênte deve esperar até o container com a dependência ficar pronto
+-> Nada mais é um script que colocamos para rodar como um comando que espera o tempo configurado no mesmo
+-> EDIT FILE: docker/node/Dockerfile | Adicionamos o [dockerize] a nossa imagem
+  - Agora podemos fazer a chamada do [dockerize] em nosso service: docker-compose.yml e configurarmos o tempo de espera do contaner dependente
+-> EDIT FILE: docker-compose.yml | Editar o entrypoint do [docker-entrypoint.sh] para o [dockerize]
+  - OBS: Somente depois que o service [db] subir que o [docker-entrypoint.sh] será chamado
+-> CLI: docker container up -d --build
+-> CLI: docker logs node
+
+- TESTANDO O DOCKERIZE EM NOSSO CONTAINER NODE
+-> CLI: docker container up -d --build
+-> CLI: docker exec -it node bash
+-> CLI: dockerize
+-> CLI: dockerize -wait tcp://db:3306 -timeout 50s
+  - Comando que verifica se o container mysql está pronto, caso negativo o dockerize vai esperar o mesmo ficar pronto.
+  - Após o tempo final [50 seguntos], que vai ser rodado o [entrypoint | docker-entrypoint.sh] que vai manter o container no "ar"
+->
+
+-- CONFIG MYSQL
+  {
+    host: 'db',
+    user: 'root',
+    password: 'root',
+    database: 'appdb',
+  };
+
+
+-- MYSQL_USER IMPORTANT
+-> Nas novas versões da imagem do MySQL 5.7, a variável MYSQL_USER=root não é aceita, porque o usuário root do banco já é criado por padrão, então lançará um erro dizendo que está se tentando criar um usuário que já existe.
+-> De qualquer forma, mesmo na versões antigas, se quisermos trabalhar com usuário root do banco, esta variável não precisa ser passada. Remova esta variável do seu docker-compose.yaml.
+
+
+-- ERROS
+-> NÃO CONSIGO CONECTAR NO MYSQL (1) [mysql -u root -p]
+  -> Resolução 1: Remover a pasta /mysql/data | Obs: Fazer backup antes
+  -> Resolução 2: | Dessa maneira não é necessário apagar a pasta /mysql/data
+    - docker-compose up -d --build --force-recreate YOUR_SERVICE_NAME | YOUR_SERVICE_NAME = db
+    - docker exec -it YOUR_SERVICE_NAME bash
+  -> https://stackoverflow.com/questions/59838692/mysql-root-password-is-set-but-getting-access-denied-for-user-rootlocalhost
+-> NÃO CONSIGO CONECTAR NO MYSQL (2) [mysql -u root -p]
+    - Depois de insistir bastante entre [mysql -u root -p] e [mysql -u root -p "root"] acabou entrando no mysql
+-> ERRO AO EXECUTAR O index.js NO MYSQL 8 VERSION
+  - Revolvi mudar a versão do mysql pra o 5.7
+  - Problema provavel de incompatibilidade do driver do node sql com o sql 8.
+  - https://stackoverflow.com/questions/50093144/mysql-8-0-client-does-not-support-authentication-protocol-requested-by-server
